@@ -1,37 +1,68 @@
-/*  
+/* 
 	Original code by Tommy@OSDev.net
 	Nikita Lindamnn, 2015
 */
 
-#include "console.c"
+#include "keyboard.c"
 #include "time.c"
+#include "console.c"
+
 
 extern void reboot(); // It's true way to call asm-defined fx's from c code:)
+extern int himem(); // It's true way to call asm-defined fx's from c code:)
+
+char* strcat(char *dest, const char *src)
+{
+	int i;
+	int destLength = lengthStr(dest);
+	for (i = 0; src[i] != '\0'; i++)
+		dest[destLength+i] = src[i];
+	dest[destLength+i] = '\0';
+	return dest;
+}
+
+char* itoa(int inpInt){
+	static char buf[32] = {0};
+	int i;
+	for(i=30; inpInt && i ; --i, inpInt /= 10)
+		buf[i] = "0123456789"[inpInt % 10];
+	return &buf[i+1];
+}
+
 
 void kmain (void)
 {
 	initConsole();
-	write("NanoS v0.0.1 Running", 0x0F);
-	for (int i=0; i<10; i++)
+	printStr("NanoS v0.0.1 Running", 0x0F);
+	for (int i=0; i<5; i++)
 	{
-		write(".", 0x0F);
+		printStr(".", 0x0F);
 		delay(100);
 	}
-	writeLn("", 0x0F);
 	
-	writeLn("Success!", 0x0F);
+	printStr("\nPress ESC and any key to reboot\n", 0x0F);
+	printStr(strcat("abcd", "1234"), 0x0F);
 	
-	printStr("System will halt in 5 seconds", 0x0E);
+	
+	char currentKey = 0;
+	do
+	{
+		currentKey = getScancode();
+		printStr(&scode[2+currentKey*2], 0x0F);
+		delayUB(15, currentKey);
+	}
+	while(0x01 != currentKey);
+	
+	printStr("System will halt in 5 seconds\n", 0x0E);
 	delay(1000);
-	printStr("System will halt in 4 seconds", 0x0E);
+	printStr("System will halt in 4 seconds\n", 0x0E);
 	delay(1000);
-	printStr("System will halt in 3 seconds", 0x0E);
+	printStr("System will halt in 3 seconds\n", 0x0E);
 	delay(1000);
-	printStr("System will halt in 2 seconds", 0x0E);
+	printStr("System will halt in 2 seconds\n", 0x0E);
 	delay(1000);
-	printStr("System will halt in 1 seconds", 0x0E);
+	printStr("System will halt in 1 seconds\n", 0x0E);
 	delay(1000);
-	writeLn("", 0x0F);
 
 	reboot();
 }
