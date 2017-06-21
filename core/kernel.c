@@ -37,32 +37,33 @@ void kmain (void)
 	for (int i=0; i<5; i++)
 	{
 		printStr(".", 0x0F);
-		delay(100);
+		delay(10);
 	}
 	
 	printStr("\nPress ESC and any key to reboot\n", 0x0F);
-	printStr(strcat("abcd", "1234"), 0x0F);
+	printStr(strcat("abcd", itoa(12345)), 0x0F);
 	
 	
 	char currentKey = 0;
 	do
 	{
+		int oldCursorPosition = getCursorOffset();
+		curLine = 3;
+		curCharacter = 25;
+		//printStr("xx", 0xF0);
+		//printStr(strcat("CurPos: ",itoa(oldCursorPosition)), 0xF0);
+		//printStr("xx", 0xF0);
+		printStr("xxxxxxxabcda", 0x0F);
+		setCursorOffset(oldCursorPosition);
+
 		currentKey = getScancode();
 		printStr(&scode[2+currentKey*2], 0x0F);
 		delayUB(15, currentKey);
 	}
 	while(0x01 != currentKey);
 	
-	printStr("System will halt in 5 seconds\n", 0x0E);
-	delay(1000);
-	printStr("System will halt in 4 seconds\n", 0x0E);
-	delay(1000);
-	printStr("System will halt in 3 seconds\n", 0x0E);
-	delay(1000);
-	printStr("System will halt in 2 seconds\n", 0x0E);
-	delay(1000);
-	printStr("System will halt in 1 seconds\n", 0x0E);
-	delay(1000);
+	printStr("System will restart in 5 seconds\n", 0x0E);
+	delay(5000);
 
 	reboot();
 }
