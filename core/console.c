@@ -52,7 +52,7 @@ void printStr(char inpStr[], unsigned char strColor)
 		else if (inpStr[i] == 0x8) 
 		{
 			*((unsigned char *) 0x000B8000 + getCursorOffset()) = ' ';
-			*((unsigned char *) 0x000B8000 + getCursorOffset() + 1) = 0x0;
+			*((unsigned char *) 0x000B8000 + getCursorOffset() + 1) = 0x0F;
 			setCursorOffset(getCursorOffset()-2);
 		}
 		else if ((inpStr[i] <= 0x20)&&(inpStr[i] >= 0x7F))

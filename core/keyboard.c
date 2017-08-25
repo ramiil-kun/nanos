@@ -16,7 +16,7 @@ char getScancode()
 	char scancode = 0;
 	do 
 	{
-		scancode = inp(0x60);
+		scancode = inp();
 		if (scancode> 0) return scancode;
 	}
 	while(1);

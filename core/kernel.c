@@ -33,26 +33,17 @@ char* itoa(int inpInt){
 void kmain (void)
 {
 	initConsole();
-	printStr("NanoS v0.0.1 Running", 0x0F);
-	for (int i=0; i<5; i++)
-	{
-		printStr(".", 0x0F);
-		delay(10);
-	}
-	
-	printStr("\nPress ESC and any key to reboot\n", 0x0F);
-	printStr(strcat("abcd", itoa(12345)), 0x0F);
+
+	printStr("Press ESC and any key to reboot\n", 0x0F);
+	//printStr(strcat("abcd", itoa(12345)), 0x0F);
 	
 	
 	char currentKey = 0;
 	do
 	{
 		int oldCursorPosition = getCursorOffset();
-		curLine = 3;
-		curCharacter = 25;
-		//printStr("xx", 0xF0);
-		//printStr(strcat("CurPos: ",itoa(oldCursorPosition)), 0xF0);
-		//printStr("xx", 0xF0);
+		curLine = 0;
+		curCharacter = 60;
 		printStr("xxxxxxxabcda", 0x0F);
 		setCursorOffset(oldCursorPosition);
 
